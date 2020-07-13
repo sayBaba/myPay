@@ -17,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
 /**
  * 支付相关接口实现类
  */
@@ -34,6 +37,8 @@ public class PayServiceImpl implements IPayService {
 
     @Autowired
     private PaySerialNoMapper paySerialNoMapper;
+
+
 
 
     @Override
@@ -69,20 +74,32 @@ public class PayServiceImpl implements IPayService {
         //5.生成支付流水
 
         PaySerialNo paySerialNo = new PaySerialNo();
+        paySerialNo.setAmount(new BigDecimal(payReq.getAmount())); //注意单位
+        paySerialNo.setGoodsBody(payReq.getBody());
+        paySerialNo.setGoodsSubject(payReq.getSubject());
+        paySerialNo.setMchId(payReq.getMchId());
+        paySerialNo.setMchOrderNo(payReq.getMchOrderNo());
+        paySerialNo.setNotifyUrl(payReq.getNotifyUrl()); //异步通知地址
+
+        paySerialNo.setPayChannel(payReq.getChannelId());
+
+        //1.jdk uuid
+        //2.没数据自增id
+        //3.redisd的 increment方法
+        //4.snowflake 雪花算法
+        paySerialNo.setReqSerialNo("20200713163353122"); //TODO 请求流水号 支付系统生成, 全局唯一。微服务，
+        paySerialNo.setStatus("1"); // 1-初始中
+        paySerialNo.setCreateTime(new Date());
+        paySerialNo.setCreateBy("system");
 
         paySerialNoMapper.insert(paySerialNo);
 
-//        if("Alipay_wap".equals(payReq.getChannelId())){
-//            //调用支付宝wap支付接口
-//        }else if(){
-//
-//        }else if(){
-//
-//        }else if(){
-//
-//        }else{
-//
-//        }
+        if("alipay.trade.precreate".equals(payReq.getChannelId())){
+            //调用支付宝扫码支付的接口
+
+        }else{
+
+        }
 
 
         //6.根据channelId 调用对应的支付接口，或者银行接口  工厂模式+策略模式 取代if.else、

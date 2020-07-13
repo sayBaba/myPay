@@ -8,10 +8,10 @@
         <version>2.3.1.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.hzit.common</groupId>
-    <artifactId>common</artifactId>
+    <groupId>com.hzit.alipay.front</groupId>
+    <artifactId>alipay-font</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>common</name>
+    <name>alipay-font</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>
@@ -21,15 +21,16 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter</artifactId>
+            <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
+        <!-- 支付宝api-->
         <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>1.2.72</version>
+            <groupId>com.alipay.sdk</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>4.10.58.ALL</version>
         </dependency>
+
         <!-- 依赖common-->
 
         <dependency>
@@ -38,13 +39,11 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
 
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
         </dependency>
-
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

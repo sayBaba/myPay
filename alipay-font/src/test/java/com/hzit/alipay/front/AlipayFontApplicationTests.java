@@ -1,19 +1,13 @@
-package com.hzit.pay.web;
-
+package com.hzit.alipay.front;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class PayWebApplicationTests {
-
-
-
+class AlipayFontApplicationTests {
 
     @Test
     void contextLoads() {
-
-
     }
 
 }
