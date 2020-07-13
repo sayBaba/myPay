@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzit.pay.web.mapper.PaySerialNoMapper" >
+  <resultMap id="BaseResultMap" type="com.hzit.pay.web.model.PaySerialNo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="goods_body" property="goodsBody" jdbcType="VARCHAR" />
+    <result column="goods_subject" property="goodsSubject" jdbcType="VARCHAR" />
+    <result column="req_serial_no" property="reqSerialNo" jdbcType="VARCHAR" />
+    <result column="time_out" property="timeOut" jdbcType="TIMESTAMP" />
+    <result column="amount" property="amount" jdbcType="DECIMAL" />
+    <result column="goods_type" property="goodsType" jdbcType="CHAR" />
+    <result column="quit_url" property="quitUrl" jdbcType="VARCHAR" />
+    <result column="mch_order_no" property="mchOrderNo" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="mch_id" property="mchId" jdbcType="VARCHAR" />
+    <result column="pay_channel" property="payChannel" jdbcType="VARCHAR" />
+    <result column="notify_url" property="notifyUrl" jdbcType="VARCHAR" />
+    <result column="resp_serial_no" property="respSerialNo" jdbcType="VARCHAR" />
+    <result column="resp_msg" property="respMsg" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goods_body, goods_subject, req_serial_no, time_out, amount, goods_type, quit_url, 
+    mch_order_no, status, mch_id, pay_channel, notify_url, resp_serial_no, resp_msg, 
+    create_time, update_time, create_by, update_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from pay_serial_no
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from pay_serial_no
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.hzit.pay.web.model.PaySerialNo" >
+    insert into pay_serial_no (id, goods_body, goods_subject, 
+      req_serial_no, time_out, amount, 
+      goods_type, quit_url, mch_order_no, 
+      status, mch_id, pay_channel, 
+      notify_url, resp_serial_no, resp_msg, 
+      create_time, update_time, create_by, 
+      update_by)
+    values (#{id,jdbcType=BIGINT}, #{goodsBody,jdbcType=VARCHAR}, #{goodsSubject,jdbcType=VARCHAR}, 
+      #{reqSerialNo,jdbcType=VARCHAR}, #{timeOut,jdbcType=TIMESTAMP}, #{amount,jdbcType=DECIMAL}, 
+      #{goodsType,jdbcType=CHAR}, #{quitUrl,jdbcType=VARCHAR}, #{mchOrderNo,jdbcType=VARCHAR}, 
+      #{status,jdbcType=CHAR}, #{mchId,jdbcType=VARCHAR}, #{payChannel,jdbcType=VARCHAR}, 
+      #{notifyUrl,jdbcType=VARCHAR}, #{respSerialNo,jdbcType=VARCHAR}, #{respMsg,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, 
+      #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hzit.pay.web.model.PaySerialNo" >
+    insert into pay_serial_no
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodsBody != null" >
+        goods_body,
+      </if>
+      <if test="goodsSubject != null" >
+        goods_subject,
+      </if>
+      <if test="reqSerialNo != null" >
+        req_serial_no,
+      </if>
+      <if test="timeOut != null" >
+        time_out,
+      </if>
+      <if test="amount != null" >
+        amount,
+      </if>
+      <if test="goodsType != null" >
+        goods_type,
+      </if>
+      <if test="quitUrl != null" >
+        quit_url,
+      </if>
+      <if test="mchOrderNo != null" >
+        mch_order_no,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="mchId != null" >
+        mch_id,
+      </if>
+      <if test="payChannel != null" >
+        pay_channel,
+      </if>
+      <if test="notifyUrl != null" >
+        notify_url,
+      </if>
+      <if test="respSerialNo != null" >
+        resp_serial_no,
+      </if>
+      <if test="respMsg != null" >
+        resp_msg,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="goodsBody != null" >
+        #{goodsBody,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSubject != null" >
+        #{goodsSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="reqSerialNo != null" >
+        #{reqSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="timeOut != null" >
+        #{timeOut,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amount != null" >
+        #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsType != null" >
+        #{goodsType,jdbcType=CHAR},
+      </if>
+      <if test="quitUrl != null" >
+        #{quitUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="mchOrderNo != null" >
+        #{mchOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="mchId != null" >
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="payChannel != null" >
+        #{payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyUrl != null" >
+        #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="respSerialNo != null" >
+        #{respSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="respMsg != null" >
+        #{respMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hzit.pay.web.model.PaySerialNo" >
+    update pay_serial_no
+    <set >
+      <if test="goodsBody != null" >
+        goods_body = #{goodsBody,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsSubject != null" >
+        goods_subject = #{goodsSubject,jdbcType=VARCHAR},
+      </if>
+      <if test="reqSerialNo != null" >
+        req_serial_no = #{reqSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="timeOut != null" >
+        time_out = #{timeOut,jdbcType=TIMESTAMP},
+      </if>
+      <if test="amount != null" >
+        amount = #{amount,jdbcType=DECIMAL},
+      </if>
+      <if test="goodsType != null" >
+        goods_type = #{goodsType,jdbcType=CHAR},
+      </if>
+      <if test="quitUrl != null" >
+        quit_url = #{quitUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="mchOrderNo != null" >
+        mch_order_no = #{mchOrderNo,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="mchId != null" >
+        mch_id = #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="payChannel != null" >
+        pay_channel = #{payChannel,jdbcType=VARCHAR},
+      </if>
+      <if test="notifyUrl != null" >
+        notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="respSerialNo != null" >
+        resp_serial_no = #{respSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="respMsg != null" >
+        resp_msg = #{respMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hzit.pay.web.model.PaySerialNo" >
+    update pay_serial_no
+    set goods_body = #{goodsBody,jdbcType=VARCHAR},
+      goods_subject = #{goodsSubject,jdbcType=VARCHAR},
+      req_serial_no = #{reqSerialNo,jdbcType=VARCHAR},
+      time_out = #{timeOut,jdbcType=TIMESTAMP},
+      amount = #{amount,jdbcType=DECIMAL},
+      goods_type = #{goodsType,jdbcType=CHAR},
+      quit_url = #{quitUrl,jdbcType=VARCHAR},
+      mch_order_no = #{mchOrderNo,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      mch_id = #{mchId,jdbcType=VARCHAR},
+      pay_channel = #{payChannel,jdbcType=VARCHAR},
+      notify_url = #{notifyUrl,jdbcType=VARCHAR},
+      resp_serial_no = #{respSerialNo,jdbcType=VARCHAR},
+      resp_msg = #{respMsg,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

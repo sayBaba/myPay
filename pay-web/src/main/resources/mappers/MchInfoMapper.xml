@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzit.pay.web.mapper.MchInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.hzit.pay.web.model.MchInfo" >
+    <id column="mch_id" property="mchId" jdbcType="VARCHAR" />
+    <result column="mch_name" property="mchName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="req_key" property="reqKey" jdbcType="VARCHAR" />
+    <result column="resp_key" property="respKey" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    mch_id, mch_name, status, req_key, resp_key, create_time, update_time, create_by, 
+    update_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from mch_info
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from mch_info
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.hzit.pay.web.model.MchInfo" >
+    insert into mch_info (mch_id, mch_name, status, 
+      req_key, resp_key, create_time, 
+      update_time, create_by, update_by
+      )
+    values (#{mchId,jdbcType=VARCHAR}, #{mchName,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, 
+      #{reqKey,jdbcType=VARCHAR}, #{respKey,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateBy,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.hzit.pay.web.model.MchInfo" >
+    insert into mch_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="mchId != null" >
+        mch_id,
+      </if>
+      <if test="mchName != null" >
+        mch_name,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="reqKey != null" >
+        req_key,
+      </if>
+      <if test="respKey != null" >
+        resp_key,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="mchId != null" >
+        #{mchId,jdbcType=VARCHAR},
+      </if>
+      <if test="mchName != null" >
+        #{mchName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="reqKey != null" >
+        #{reqKey,jdbcType=VARCHAR},
+      </if>
+      <if test="respKey != null" >
+        #{respKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hzit.pay.web.model.MchInfo" >
+    update mch_info
+    <set >
+      <if test="mchName != null" >
+        mch_name = #{mchName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="reqKey != null" >
+        req_key = #{reqKey,jdbcType=VARCHAR},
+      </if>
+      <if test="respKey != null" >
+        resp_key = #{respKey,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hzit.pay.web.model.MchInfo" >
+    update mch_info
+    set mch_name = #{mchName,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      req_key = #{reqKey,jdbcType=VARCHAR},
+      resp_key = #{respKey,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where mch_id = #{mchId,jdbcType=VARCHAR}
+  </update>
+</mapper>
