@@ -14,11 +14,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public interface IApilayClient {
 
     /**
-     * 支付宝支付
+     * 支付宝扫码支付
      * @param aliapyPayReq
      * @return
      */
-    @RequestMapping("/alipay/pay")
+    @RequestMapping("/alipay/preCreate")
     public Result<String> toAlipay(@RequestBody AliapyPayReq aliapyPayReq);
 
 

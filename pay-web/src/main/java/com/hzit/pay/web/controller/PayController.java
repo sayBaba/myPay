@@ -1,6 +1,8 @@
 package com.hzit.pay.web.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.hzit.common.resp.PayResultData;
+import com.hzit.common.resp.Result;
 import com.hzit.pay.web.req.PayReq;
 import com.hzit.pay.web.service.IPayService;
 import org.slf4j.Logger;
@@ -25,21 +27,20 @@ public class PayController {
     /**
      * 统一支付接口
      */
-    @RequestMapping("/toPay")    //1.参数校验
-    public void pay(@RequestBody  @Valid PayReq payReq){
+    @RequestMapping("/toPay")
+    public Result<PayResultData> pay(@RequestBody  @Valid PayReq payReq){
         logger.info("接收到请求参数为：{}的支付请求",payReq);
 
-
+        Result<PayResultData> payResultDataResult = new Result<PayResultData>();
         try {
-            iPayService.Pay(payReq);
-
-            //8.封装javabean 返回给对应的业务系统
-
+            payResultDataResult = iPayService.Pay(payReq);
+            return payResultDataResult;
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error("Exception",e);
+            payResultDataResult.setMsg(e.getMessage());
+            payResultDataResult.setCode(-1);
+            return payResultDataResult;
         }
-
-
     }
 
 }

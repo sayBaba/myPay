@@ -39,7 +39,7 @@ public class AliapyController {
     /**
      * 支付接口
      */
-    @RequestMapping("/pay")
+    @RequestMapping("/preCreate")
     public Result<String> toPay(@RequestBody AliapyPayReq aliapyPayReq ){
         logger.info("接受到支付请求,请求参数为：{}",aliapyPayReq);
         AlipayClient alipayClient = new DefaultAlipayClient(url,appId,apiPrivateKey,"json","utf-8",alipayPubKey,"RSA2");
@@ -63,7 +63,7 @@ public class AliapyController {
            if("10000".equals(code)){
                result.setMsg("成功");
                result.setCode(0);
-               result.setT(precreateResponse.getQrCode());
+               result.setData(precreateResponse.getQrCode());
 //               return result;
            }else{
                result.setMsg(precreateResponse.getMsg());

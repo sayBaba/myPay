@@ -5,13 +5,13 @@ import com.hzit.common.resp.Result;
 import com.hzit.pay.web.req.PayReq;
 
 /**
- * 支付相关接口
+ * 支付策略接口
  */
-public interface IPayService {
+public interface IPayStrategyService {
 
     /**
-     * 处理支付请求
-     * @param payReq
+     * 支付接口
+     * @return
      */
-    public Result<PayResultData> Pay(PayReq payReq) throws Exception;
+    public Result<?> payStrategy(PayReq payReq,String reqSerialNo);
 }
