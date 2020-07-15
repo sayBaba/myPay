@@ -22,6 +22,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
 import java.math.BigDecimal;
@@ -54,6 +55,7 @@ public class PayServiceImpl implements IPayService {
 
 
     @Override
+    @Transactional //单机应用
     public  Result<PayResultData> Pay(PayReq payReq) throws Exception {
 
         Result<PayResultData> payResultDataResult = new Result<PayResultData>();
@@ -82,6 +84,8 @@ public class PayServiceImpl implements IPayService {
         }
         //4.参数验签，判断请求数据是否被修改
         String reqkey = mchInfo.getReqKey();
+
+
         boolean flag = XXPayUtil.verifyPaySign(params,reqkey);
 
         if(flag == false){
@@ -118,6 +122,13 @@ public class PayServiceImpl implements IPayService {
 
         // 策略+ 工厂+ 枚举
         IPayStrategyService iPayStrategyService = PayStrategyFactory.getPayStrate(payReq.getChannelId());
+        if(ObjectUtils.isEmpty(iPayStrategyService)){
+            logger.info("商户号：{}不支持此支付渠道:{}",payReq.getMchId(),payReq.getChannelId());   //TODO
+            payResultDataResult.setMsg("商户号不支持此支付渠道");
+            payResultDataResult.setCode(-1);
+            return payResultDataResult;
+        }
+
         Result result = iPayStrategyService.payStrategy(payReq,reqSerialNo);
         return result;
     }
