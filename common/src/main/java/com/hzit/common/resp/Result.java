@@ -16,4 +16,6 @@ public class Result<T> {
 
     private T data;
 
+
+
 }
