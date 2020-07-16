@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hzit.pay.web.mapper.NoticeInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.hzit.pay.web.model.NoticeInfo" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="req_serial_no" property="reqSerialNo" jdbcType="VARCHAR" />
+    <result column="notice_count" property="noticeCount" jdbcType="INTEGER" />
+    <result column="notice_url" property="noticeUrl" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="notice_time" property="noticeTime" jdbcType="TIMESTAMP" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="create_by" property="createBy" jdbcType="VARCHAR" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="update_by" property="updateBy" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, req_serial_no, notice_count, notice_url, status, notice_time, create_time, create_by, 
+    update_time, update_by
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from notice_info
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from notice_info
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.hzit.pay.web.model.NoticeInfo" >
+    insert into notice_info (id, req_serial_no, notice_count, 
+      notice_url, status, notice_time, 
+      create_time, create_by, update_time, 
+      update_by)
+    values (#{id,jdbcType=INTEGER}, #{reqSerialNo,jdbcType=VARCHAR}, #{noticeCount,jdbcType=INTEGER}, 
+      #{noticeUrl,jdbcType=VARCHAR}, #{status,jdbcType=CHAR}, #{noticeTime,jdbcType=TIMESTAMP}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{createBy,jdbcType=VARCHAR}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{updateBy,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.hzit.pay.web.model.NoticeInfo" >
+    insert into notice_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reqSerialNo != null" >
+        req_serial_no,
+      </if>
+      <if test="noticeCount != null" >
+        notice_count,
+      </if>
+      <if test="noticeUrl != null" >
+        notice_url,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="noticeTime != null" >
+        notice_time,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="createBy != null" >
+        create_by,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="updateBy != null" >
+        update_by,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="reqSerialNo != null" >
+        #{reqSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCount != null" >
+        #{noticeCount,jdbcType=INTEGER},
+      </if>
+      <if test="noticeUrl != null" >
+        #{noticeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="noticeTime != null" >
+        #{noticeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.hzit.pay.web.model.NoticeInfo" >
+    update notice_info
+    <set >
+      <if test="reqSerialNo != null" >
+        req_serial_no = #{reqSerialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="noticeCount != null" >
+        notice_count = #{noticeCount,jdbcType=INTEGER},
+      </if>
+      <if test="noticeUrl != null" >
+        notice_url = #{noticeUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="noticeTime != null" >
+        notice_time = #{noticeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createBy != null" >
+        create_by = #{createBy,jdbcType=VARCHAR},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateBy != null" >
+        update_by = #{updateBy,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.hzit.pay.web.model.NoticeInfo" >
+    update notice_info
+    set req_serial_no = #{reqSerialNo,jdbcType=VARCHAR},
+      notice_count = #{noticeCount,jdbcType=INTEGER},
+      notice_url = #{noticeUrl,jdbcType=VARCHAR},
+      status = #{status,jdbcType=CHAR},
+      notice_time = #{noticeTime,jdbcType=TIMESTAMP},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      create_by = #{createBy,jdbcType=VARCHAR},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      update_by = #{updateBy,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>

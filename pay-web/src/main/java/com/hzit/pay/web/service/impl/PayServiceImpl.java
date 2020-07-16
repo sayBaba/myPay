@@ -1,19 +1,18 @@
 package com.hzit.pay.web.service.impl;
 
 import com.alibaba.fastjson.JSONObject;
-import com.hzit.common.req.AliapyPayReq;
+import com.hzit.common.req.PayCallBackData;
 import com.hzit.common.resp.PayResultData;
 import com.hzit.common.resp.Result;
-import com.hzit.common.utils.PayDigestUtil;
 import com.hzit.common.utils.XXPayUtil;
-import com.hzit.pay.web.client.IApilayClient;
-import com.hzit.pay.web.controller.PayController;
 import com.hzit.pay.web.factory.PayStrategyFactory;
 import com.hzit.pay.web.mapper.MchInfoMapper;
 import com.hzit.pay.web.mapper.MchPayChannelMapper;
+import com.hzit.pay.web.mapper.NoticeInfoMapper;
 import com.hzit.pay.web.mapper.PaySerialNoMapper;
 import com.hzit.pay.web.model.MchInfo;
 import com.hzit.pay.web.model.MchPayChannel;
+import com.hzit.pay.web.model.NoticeInfo;
 import com.hzit.pay.web.model.PaySerialNo;
 import com.hzit.pay.web.req.PayReq;
 import com.hzit.pay.web.service.IPayService;
@@ -49,9 +48,8 @@ public class PayServiceImpl implements IPayService {
     @Autowired
     private PayStrategyFactory payStrategyFactory;
 
-
-
-
+    @Autowired
+    private NoticeInfoMapper noticeInfoMapper;
 
 
     @Override
@@ -132,4 +130,59 @@ public class PayServiceImpl implements IPayService {
         Result result = iPayStrategyService.payStrategy(payReq,reqSerialNo);
         return result;
     }
+
+    @Override
+    public Result<PaySerialNo> queryTradeInfoByReqSrerialNo(String reqSrerialNo) {
+        Result<PaySerialNo> result = new Result<PaySerialNo>();
+        PaySerialNo  paySerialNo = paySerialNoMapper.queryBySerialNo(reqSrerialNo);
+        result.setCode(0);
+        result.setMsg("查询成功");
+        result.setData(paySerialNo);
+        return result;
+    }
+
+    @Override
+    @Transactional
+    public Result updateTradeInfo(PayCallBackData payCallBackData) {
+
+        Result result = new Result();
+
+        //
+        PaySerialNo  paySerialNo = paySerialNoMapper.queryBySerialNo(payCallBackData.getReqSrialNo());
+        if(ObjectUtils.isEmpty(paySerialNo)){
+            return null; //TODO
+        }
+
+        //todo 更新交易流水
+        PaySerialNo newPaySerialNo = new PaySerialNo();
+        newPaySerialNo.setId(paySerialNo.getId());
+        newPaySerialNo.setRespMsg(payCallBackData.getRespMsg());
+        newPaySerialNo.setRespSerialNo(payCallBackData.getRespSerialNo());
+        newPaySerialNo.setUpdateTime(payCallBackData.getPaySuccessTime()); //交易成功的时间
+        newPaySerialNo.setStatus(payCallBackData.getPayStatus());
+        paySerialNoMapper.updateByPrimaryKeySelective(newPaySerialNo);
+
+        //TODO 异步通知 业务系统（订单）
+
+        NoticeInfo noticeInfo = noticeInfoMapper.queryByReqSerial(paySerialNo.getReqSerialNo());
+
+        if(ObjectUtils.isEmpty(noticeInfo)){
+            NoticeInfo record = new NoticeInfo();
+            record.setNoticeCount(0);
+            record.setCreateBy("system");
+            record.setCreateTime(new Date());
+            record.setReqSerialNo(paySerialNo.getReqSerialNo());
+            record.setNoticeUrl(paySerialNo.getNotifyUrl());
+            noticeInfoMapper.insert(noticeInfo);
+        }else{
+            noticeInfo.setUpdateTime(new Date());
+            noticeInfoMapper.updateByPrimaryKey(noticeInfo);
+        }
+
+        result.setMsg("成功");
+        result.setCode(0);
+        return result;
+    }
+
+
 }

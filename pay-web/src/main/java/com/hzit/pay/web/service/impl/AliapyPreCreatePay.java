@@ -40,7 +40,7 @@ public class AliapyPreCreatePay implements IPayStrategyService, InitializingBean
             AliapyPayReq aliapyPayReq = new AliapyPayReq();
             aliapyPayReq.setAmount(payReq.getAmount());
             aliapyPayReq.setBody(payReq.getBody());
-            aliapyPayReq.setOutTradeNo(payReq.getBody());
+            aliapyPayReq.setOutTradeNo(reqSerialNo);
             aliapyPayReq.setSubject(payReq.getSubject());
             Result<String>  result = iApilayClient.toAlipay(aliapyPayReq);
 
