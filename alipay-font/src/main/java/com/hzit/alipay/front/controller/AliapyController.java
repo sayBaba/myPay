@@ -36,8 +36,11 @@ public class AliapyController {
 
     private String url = "https://openapi.alipaydev.com/gateway.do";
 
+    private String NOTIFY_URL = "http://hzit666.free.idcfengye.com/alipayNotify/pay";
+
+
     /**
-     * 支付接口
+     * 支付宝扫码支付
      */
     @RequestMapping("/preCreate")
     public Result<String> toPay(@RequestBody AliapyPayReq aliapyPayReq ){
@@ -46,18 +49,22 @@ public class AliapyController {
         AlipayTradePrecreateRequest request = new AlipayTradePrecreateRequest();
 
         JSONObject jsonObject = new JSONObject();
+
+
         //必传参数
         jsonObject.put("out_trade_no",aliapyPayReq.getOutTradeNo());//
         jsonObject.put("total_amount", aliapyPayReq.getAmount());//
         jsonObject.put("subject",aliapyPayReq.getSubject());
         jsonObject.put("body", aliapyPayReq.getBody());
+
+        //http://hzit666.free.idcfengye.com
+
+        request.setNotifyUrl(NOTIFY_URL); //异步通知地址，支付成功后，支付宝回调的地址
         request.setBizContent(jsonObject.toJSONString()); //json字符串
 
         Result<String > result = new Result<String>();
         try {
             AlipayTradePrecreateResponse precreateResponse = alipayClient.execute(request);
-
-
 
            String code =  precreateResponse.getCode();
            if("10000".equals(code)){
