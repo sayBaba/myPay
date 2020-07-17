@@ -14,15 +14,18 @@ import com.hzit.pay.web.model.MchInfo;
 import com.hzit.pay.web.model.MchPayChannel;
 import com.hzit.pay.web.model.NoticeInfo;
 import com.hzit.pay.web.model.PaySerialNo;
+import com.hzit.pay.web.mq.config.RabbitMqConfig;
 import com.hzit.pay.web.req.PayReq;
 import com.hzit.pay.web.service.IPayService;
 import com.hzit.pay.web.service.IPayStrategyService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
+import org.springframework.web.client.RestTemplate;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -50,6 +53,12 @@ public class PayServiceImpl implements IPayService {
 
     @Autowired
     private NoticeInfoMapper noticeInfoMapper;
+
+    @Autowired
+    private RestTemplate restTemplate;
+
+    @Autowired
+    private RabbitTemplate rabbitTemplate;
 
 
     @Override
@@ -179,6 +188,32 @@ public class PayServiceImpl implements IPayService {
             noticeInfoMapper.updateByPrimaryKey(noticeInfo);
         }
 
+        //通知抢购服务
+        String url = "http://127.0.0.1:8089/notify/pay"; //读配置中心
+
+        //封装返回给业务系统的参数
+        JSONObject object = new JSONObject();
+        object.put("code",0);
+        object.put("msg","成功");
+        JSONObject data = new JSONObject();
+
+        data.put("payStatus","0"); // 0 -成功，1-交易失败
+        data.put("reqSerialNo",paySerialNo.getReqSerialNo());
+        data.put("amout",paySerialNo.getAmount());
+        data.put("mchOrderNo",paySerialNo.getMchId());
+        object.put("data",data);
+
+
+        String rlt =  restTemplate.getForObject(url+"?params="+object.toString(),String.class);
+        logger.info("收到流水号：{}业务系统的返回结果:{}",paySerialNo.getReqSerialNo(),rlt);   //TODO
+
+        //网络原因等，其他因素，导致请求没有发送成功
+        if(!"success".equals(rlt)){
+            //假设等5分钟， 把消息丢到mq.
+            //TODO 通知的机制， 5m ，5m 15m 1h 2h
+            rabbitTemplate.convertAndSend(RabbitMqConfig.DELAY_EXCHANGE_NAME,RabbitMqConfig.DEAD_LETTER_QUEUEA_NAME,object);
+        }
+        //更新 notice_info 状态 修改为知成功
         result.setMsg("成功");
         result.setCode(0);
         return result;
