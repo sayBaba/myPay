@@ -4,9 +4,11 @@ import com.alibaba.fastjson.JSONObject;
 import com.hzit.common.req.PayCallBackData;
 import com.hzit.common.resp.PayResultData;
 import com.hzit.common.resp.Result;
+import com.hzit.pay.web.anno.AutoIdempotent1;
 import com.hzit.pay.web.model.PaySerialNo;
 import com.hzit.pay.web.req.PayReq;
 import com.hzit.pay.web.service.IPayService;
+import com.hzit.pay.web.service.ITokenService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,9 +28,22 @@ public class PayController {
     @Autowired
     private IPayService iPayService;
 
+    @Autowired
+    private ITokenService tokenService;
+
+
+
+    @RequestMapping("/get/token")
+    public String  getToken(){
+        String token = tokenService.createToken();
+        return token;
+    }
+
+
     /**
      * 统一支付接口, 订单
      */
+    @AutoIdempotent1
     @RequestMapping("/toPay")
     public Result<PayResultData> pay(@RequestBody  @Valid PayReq payReq){
         logger.info("接收到请求参数为：{}的支付请求",payReq);

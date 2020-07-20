@@ -41,6 +41,7 @@ public class XXPayUtil {
     public static boolean verifyPaySign(Map<String,Object> params, String key) {
         String sign = (String)params.get("sign"); // 签名
         params.remove("sign");	// 不参与签名
+        System.err.println(params);
         String checkSign = PayDigestUtil.getSign(params, key);
         if (!checkSign.equalsIgnoreCase(sign)) {
             return false;

@@ -70,6 +70,7 @@ public class PayServiceImpl implements IPayService {
         //2. 签名验证
         ///对象转json
         JSONObject params = (JSONObject)JSONObject.toJSON(payReq);
+        logger.info("params = " + params);
 
         MchInfo mchInfo = mchInfoMapper.selectByPrimaryKey(payReq.getMchId());
         //2.商户状态
@@ -91,7 +92,6 @@ public class PayServiceImpl implements IPayService {
         }
         //4.参数验签，判断请求数据是否被修改
         String reqkey = mchInfo.getReqKey();
-
 
         boolean flag = XXPayUtil.verifyPaySign(params,reqkey);
 
